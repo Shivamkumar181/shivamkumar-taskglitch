@@ -1,8 +1,25 @@
 import { DerivedTask, Task } from '@/types';
 
 export function computeROI(revenue: number, timeTaken: number): number | null {
-
-  return revenue / (timeTaken as number);
+  if (typeof revenue !== 'number' || typeof timeTaken !== 'number') {
+    return null;
+  }
+  
+  if (!Number.isFinite(revenue) || !Number.isFinite(timeTaken)) {
+    return null;
+  }
+  
+  if (timeTaken <= 0) {
+    return null;
+  }
+  
+  if (revenue === 0) {
+    return 0;
+  }
+  
+  const roi = revenue / timeTaken;
+  
+  return Number.isFinite(roi) ? Number(roi.toFixed(2)) : null;
 }
 
 export function computePriorityWeight(priority: Task['priority']): 3 | 2 | 1 {
