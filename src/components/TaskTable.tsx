@@ -26,13 +26,11 @@ export default function TaskTable({ tasks, onAdd, onUpdate, onDelete }: Props) {
     setOpenForm(true);
   };
 
-  
   const handleEditClick = (e: React.MouseEvent, task: Task) => {
     e.stopPropagation();
     setEditing(task);
     setOpenForm(true);
   };
-
 
   const handleDeleteClick = (e: React.MouseEvent, taskId: string) => {
     e.stopPropagation();
@@ -69,9 +67,9 @@ export default function TaskTable({ tasks, onAdd, onUpdate, onDelete }: Props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {tasks.map(t => (
+              {tasks.map((t, index) => (
                 <TableRow 
-                  key={t.id} 
+                  key={t.id || `task-${index}`}
                   hover 
                   onClick={() => setDetails(t)} 
                   sx={{ cursor: 'pointer' }}
@@ -80,7 +78,6 @@ export default function TaskTable({ tasks, onAdd, onUpdate, onDelete }: Props) {
                     <Stack spacing={0.5}>
                       <Typography fontWeight={600}>{t.title}</Typography>
                       {t.notes && (
-                        
                         <Typography
                           variant="caption"
                           color="text.secondary"
@@ -94,7 +91,6 @@ export default function TaskTable({ tasks, onAdd, onUpdate, onDelete }: Props) {
                   </TableCell>
                   <TableCell align="right">${t.revenue.toLocaleString()}</TableCell>
                   <TableCell align="right">{t.timeTaken}</TableCell>
-                
                   <TableCell align="right">
                     {t.roi == null || !Number.isFinite(t.roi) ? 'N/A' : t.roi.toFixed(1)}
                   </TableCell>
@@ -103,7 +99,6 @@ export default function TaskTable({ tasks, onAdd, onUpdate, onDelete }: Props) {
                   <TableCell align="right">
                     <Stack direction="row" spacing={1} justifyContent="flex-end">
                       <Tooltip title="Edit">
-                    
                         <IconButton 
                           onClick={(e) => handleEditClick(e, t)} 
                           size="small"
@@ -112,7 +107,6 @@ export default function TaskTable({ tasks, onAdd, onUpdate, onDelete }: Props) {
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Delete">
-                        
                         <IconButton 
                           onClick={(e) => handleDeleteClick(e, t.id)} 
                           size="small" 
